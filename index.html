@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Bundle Selector</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 16px;
+    }
+    .product {
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: calc(50% - 20px);
+      position: relative;
+      text-align: center;
+    }
+    .product img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+    }
+    .qty-controls {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .qty-controls button {
+      background: pink;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .qty-controls span {
+      margin: 0 10px;
+      font-weight: bold;
+    }
+    .cart-tray {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #f8f8f8;
+      border-top: 2px solid #ccc;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart-items {
+      display: flex;
+      gap: 10px;
+    }
+    .cart-item {
+      text-align: center;
+    }
+    .cart-item img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+    }
+    .next-btn {
+      background: #ff4081;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="product-grid" id="productGrid">
+  <!-- Products -->
+</div>
+
+<div class="cart-tray">
+  <div class="cart-items" id="cartItems">
+    <!-- Selected Items -->
+  </div>
+  <div>
+    <div><strong>₹499.00</strong></div>
+    <button class="next-btn" onclick="goToCheckout()">Next</button>
+  </div>
+</div>
+
+<script>
+const products = [
+  { id: 1, name: "Bright Bra", img: "https://via.placeholder.com/150/ff69b4", qty: 0 },
+  { id: 2, name: "Cream Bra", img: "https://via.placeholder.com/150/fdf6e3", qty: 0 },
+  { id: 3, name: "Newy Pad Bra", img: "https://via.placeholder.com/150/dcdcdc", qty: 0 },
+  { id: 4, name: "T-shirt Bra", img: "https://via.placeholder.com/150/333333", qty: 0 },
+];
+
+function renderProducts() {
+  const grid = document.getElementById("productGrid");
+  grid.innerHTML = "";
+  products.forEach(product => {
+    const div = document.createElement("div");
+    div.className = "product";
+    div.innerHTML = `
+      <img src="${product.img}" alt="${product.name}">
+      <h4>${product.name}</h4>
+      <div class="qty-controls">
+        <button onclick="decreaseQty(${product.id})">-</button>
+        <span id="qty-${product.id}">${product.qty}</span>
+        <button onclick="increaseQty(${product.id})">+</button>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+  updateCart();
+}
+
+function increaseQty(id) {
+  const product = products.find(p => p.id === id);
+  product.qty += 1;
+  document.getElementById(qty-${id}).innerText = product.qty;
+  updateCart();
+}
+
+function decreaseQty(id) {
+  const product = products.find(p => p.id === id);
+  if (product.qty > 0) {
+    product.qty -= 1;
+    document.getElementById(qty-${id}).innerText = product.qty;
+    updateCart();
+  }
+}
+
+function updateCart() {
+  const cart = document.getElementById("cartItems");
+  cart.innerHTML = "";
+  products.forEach(p => {
+    if (p.qty > 0) {
+      const div = document.createElement("div");
+      div.className = "cart-item";
+      div.innerHTML = <img src="${p.img}" alt="${p.name}"><div>x${p.qty}</div>;
+      cart.appendChild(div);
+    }
+  });
+}
+
+function goToCheckout() {
+  alert("Proceeding to checkout with selected products.");
+  // You can redirect to actual checkout page here
+}
+
+renderProducts();
+</script>
+
+</body>
+</html>
